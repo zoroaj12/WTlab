@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Document</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #chessboard {
+            display: flex;
+            flex-direction: column;
+            max-width: 50vw;
+            /* Set maximum width */
+            max-height: 45vh;
+            /* Set maximum height */
+            width: 50vw;
+            height: 45vh;
+            border: 2px solid black;
+            /* Just for visualization */
+        }
+
+        .cellContainer {
+            display: flex;
+            flex: 1;
+        }
+
+        .cell {
+            flex: 1;
+            /* Fill available space equally */
+            aspect-ratio: 1;
+            /* Maintain square shape */
+            border: 1px solid black;
+        }
+
+        @media screen and (max-width: 90vw) and (max-height: 90vh) {
+
+            /* Adjust styles for smaller screens */
+            #chessboard {
+                max-width: 80vw;
+                max-height: 80vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chessboard"></div>
+    <script>
+        function resizeChessboard() {
+            const chessboard = $("#chessboard");
+            const width = window.innerWidth * 0.9; // 90% of window width
+            const height = window.innerHeight * 0.9; // 90% of window height
+
+            chessboard.css("width", width + "px");
+            chessboard.css("height", height + "px");
+
+            const cells = $(".cell");
+            const cellSize = Math.min(width, height) / 8; // Dividing into 8x8 grid
+
+            cells.css("width", cellSize + "px");
+            cells.css("height", cellSize + "px");
+        }
+
+        // Call the function initially and on window resize
+        $(window).on("resize", resizeChessboard);
+        resizeChessboard();
+
+        let chessboard = $("#chessboard");
+
+        for (let i = 1; i < 8; i++) {
+            let cellcontainer = $("<div>").addClass("cellContainer");
+            for (let j = 1; j < 8; j++) {
+                let cell = $("<div>").addClass("cell");
+
+                if (i % 2 == 0) {
+                    if (j % 2 == 0) {
+                        cell.css("background-color", "black");
+                    } else {
+                        cell.css("background-color", "white");
+                    }
+                } else {
+                    if (j % 2 == 0) {
+                        cell.css("background-color", "white");
+                    } else {
+                        cell.css("background-color", "black");
+                    }
+                }
+
+                cellcontainer.append(cell);
+            }
+            chessboard.append(cellcontainer);
+        }
+    </script>
+</body>
+
+</html>
